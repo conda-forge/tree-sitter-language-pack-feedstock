@@ -1,7 +1,6 @@
 context:
   name: tree-sitter-language-pack
   version: "0.9.1"
-  python_min: '3.9'
 
 package:
   name: ${{ name|lower }}
