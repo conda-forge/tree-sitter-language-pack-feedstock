@@ -36,7 +36,9 @@ requirements:
     - setuptools >=78.1
   run:
     - python
-    - tree_sitter ==0.23.2
+    - if: match(python, ">=3.14")
+      then: tree_sitter ==0.25.1
+      else: tree_sitter ==0.23.2
     - tree-sitter-c-sharp ==0.23.1
     - tree-sitter-embedded-template ==0.23.2
     - tree-sitter-yaml ==0.7.0
