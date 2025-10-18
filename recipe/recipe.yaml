@@ -1,6 +1,6 @@
 context:
   name: tree-sitter-language-pack
-  version: "0.9.0"
+  version: "0.10.0"
   python_min: '3.9'
 
 package:
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://github.com/Goldziher/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 24068e745e3608e5c8b3e362edba059dc75322399ad9b358d1846a7b8e6c9d37
+  sha256: 86791ef05743ca25f0f00ee5878b6d27ccbff0bdc499aaeea1ffe429688a9f6a
   # No tests
   # url: https://pypi.org/packages/source/t/tree-sitter-language-pack/tree_sitter_language_pack-${{ version }}.tar.gz
   # sha256: 8fe73107045ce150aba2590bc5df114283162413da39dc264710a6ebccaf048c
@@ -20,7 +20,7 @@ build:
   script:
     - mkdir parsers
     - ${{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv
-  number: 2
+  number: 0
 
 requirements:
   build:
@@ -40,7 +40,7 @@ requirements:
     - tree_sitter >=0.23.2
     - tree-sitter-c-sharp >=0.23.1
     - tree-sitter-embedded-template >=0.23.2
-    - tree-sitter-yaml >=0.7.0
+    - tree-sitter-yaml >=0.7.2
 
 tests:
   - python:
