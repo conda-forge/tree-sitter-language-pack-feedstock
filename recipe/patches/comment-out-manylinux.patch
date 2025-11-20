@@ -1,7 +1,0 @@
---- a/setup.py
-+++ b/setup.py
-@@ -107,3 +107,3 @@
-         python, abi, platform = super().get_tag()
--        platform = platform.replace("linux", "manylinux2014")
-+        # platform = platform.replace("linux", "manylinux2014")
-         if python.startswith("cp") and int(python[2:]) >= MIN_PYTHON_VERSION:
