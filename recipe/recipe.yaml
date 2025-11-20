@@ -10,11 +10,6 @@ package:
 source:
   url: https://github.com/Goldziher/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
   sha256: db6cad68782aaec63fd20af27b073b80062c03c6c7e9551637c71261613fbcca
-  # No tests
-  # url: https://pypi.org/packages/source/t/tree-sitter-language-pack/tree_sitter_language_pack-${{ version }}.tar.gz
-  # sha256: 8fe73107045ce150aba2590bc5df114283162413da39dc264710a6ebccaf048c
-  # patches:
-  #   - patches/comment-out-manylinux.patch
 
 build:
   script:
