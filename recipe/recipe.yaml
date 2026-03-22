@@ -34,7 +34,7 @@ requirements:
     - maturin
     - pip
     - python
-    - setuptools >=78.1
+    # - setuptools >=78.1
   run:
     - python
     - tree_sitter >=0.23.2
