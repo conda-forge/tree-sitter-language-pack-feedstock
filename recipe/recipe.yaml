@@ -1,7 +1,6 @@
 context:
   name: tree-sitter-language-pack
   version: "1.0.0"
-  python_min: '3.9'
 
 package:
   name: ${{ name|lower }}
@@ -9,24 +8,30 @@ package:
 
 source:
   url: https://github.com/Goldziher/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 067984ce70763b6bb550651998ef3bb15cd0b3d3bda20534e882ecde5dd3d987
+  sha256: 91c59d684b62547725c9bf153bf705cd06ee3cf243905e6bdabdc7cc53f2f387
 
 build:
   script:
     - mkdir parsers
-    - ${{ PYTHON }} -m pip install . --no-deps --ignore-installed -vvv
+    - maturin build --release --manifest-path crates/ts-pack-python/Cargo.toml --interpreter ${{ PYTHON }} --out dist
+    - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
+    - ${{ PYTHON }} -m pip install --find-links=dist tree_sitter_language_pack
   number: 0
 
 requirements:
   build:
     - ${{ compiler("c") }}
+    - ${{ compiler("rust") }}
     - ${{ stdlib("c") }}
-    - cython
+    - cargo-bundle-licenses
     - if: build_platform != target_platform
       then:
-        - python
         - cross-python_${{ target_platform }}
+        - crossenv
+        - maturin
+        - python
   host:
+    - maturin
     - pip
     - python
     - setuptools >=78.1
@@ -62,7 +67,9 @@ about:
     in which scripting code can be embedded within text content using
     the delimiters <% and %>
   license: MIT
-  license_file: LICENSE
+  license_file:
+    - LICENSE
+    - THIRDPARTY.yml
   repository: https://github.com/Goldziher/tree-sitter-language-pack
 
 extra:
