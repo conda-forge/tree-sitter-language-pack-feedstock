@@ -1,6 +1,6 @@
 context:
   name: tree-sitter-language-pack
-  version: "1.1.0"
+  version: "1.1.1"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/Goldziher/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: a540dd33a7a454efbe8cf73714bbe78dbc66b93a356c4681de75b9435c9615cf
+  sha256: c3d60aa974b587f6e0a3a54524429c234400da26ec60c968cf2e3703bb1496bf
 
 build:
   script:
