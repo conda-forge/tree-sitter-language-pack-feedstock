@@ -8,12 +8,12 @@ package:
 
 source:
   url: https://github.com/Goldziher/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: d7a34e918a05baee699a03eed16747914d896d29cfe350fa85ef80bddb143cad
+  sha256: ded306f71acfbdc17359c184ab26c422545457ad35a69348143c1e3ec6cc516c
 
 build:
   script:
     - mkdir parsers
-    - maturin build --release --manifest-path crates/ts-pack-python/Cargo.toml --interpreter ${{ PYTHON }} --out dist
+    - maturin build --release --manifest-path crates/ts-pack-core-py/Cargo.toml --interpreter ${{ PYTHON }} --out dist
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
     - ${{ PYTHON }} -m pip install --find-links=dist tree_sitter_language_pack
   number: 0
