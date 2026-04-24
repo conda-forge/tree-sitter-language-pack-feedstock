@@ -13,8 +13,10 @@ source:
 build:
   script:
     - mkdir parsers
-    - maturin build --release --manifest-path crates/ts-pack-core-py/Cargo.toml --interpreter ${{ PYTHON }} --out dist
-    - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
+    - cd packages/python
+    - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
+    - maturin build --release --interpreter ${{ PYTHON }} --out "${SRC_DIR}/dist"
+    - cd ../..
     - ${{ PYTHON }} -m pip install --find-links=dist tree_sitter_language_pack
   number: 0
 
