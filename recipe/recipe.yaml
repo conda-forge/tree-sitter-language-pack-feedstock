@@ -1,6 +1,6 @@
 context:
   name: tree-sitter-language-pack
-  version: "1.6.2"
+  version: "1.7.0"
 
 package:
   name: ${{ name|lower }}
@@ -8,13 +8,15 @@ package:
 
 source:
   url: https://github.com/Goldziher/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: e178aaa6d857033aa19e8b4209d1dbfa577196a86faf64e4ebc32ae58dcb732a
+  sha256: ded306f71acfbdc17359c184ab26c422545457ad35a69348143c1e3ec6cc516c
 
 build:
   script:
     - mkdir parsers
-    - maturin build --release --manifest-path crates/ts-pack-python/Cargo.toml --interpreter ${{ PYTHON }} --out dist
-    - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
+    - cd packages/python
+    - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
+    - maturin build --release --interpreter ${{ PYTHON }} --out ${{ "${SRC_DIR}/dist" if unix else "%SRC_DIR%\dist" }}
+    - cd ../..
     - ${{ PYTHON }} -m pip install --find-links=dist tree_sitter_language_pack
   number: 0
 
