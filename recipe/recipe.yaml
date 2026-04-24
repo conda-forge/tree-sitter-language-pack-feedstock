@@ -15,7 +15,7 @@ build:
     - mkdir parsers
     - cd packages/python
     - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
-    - maturin build --release --interpreter ${{ PYTHON }} --out "${SRC_DIR}/dist"
+    - maturin build --release --interpreter ${{ PYTHON }} --out ${{ "${SRC_DIR}/dist" if unix else "%SRC_DIR%\dist" }}
     - cd ../..
     - ${{ PYTHON }} -m pip install --find-links=dist tree_sitter_language_pack
   number: 0
