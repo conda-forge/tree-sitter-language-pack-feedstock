@@ -49,16 +49,18 @@ tests:
         - tree_sitter_language_pack
       pip_check: true
   - script:
-      - mkdir sources && echo '{"csharp":{}, "embeddedtemplate":{}, "yaml":{}}' > sources/language_definitions.json
-      # One test fails since we restrict the supported languages to the few that are needed (requirements/run)
-      - pytest tests || true
+      - pytest e2e/python/tests
+          --deselect tests/test_smoke.py::test_smoke_avro
+          --deselect tests/test_smoke.py::test_smoke_tsql
     requirements:
       run:
         - pytest
+        - pytest-asyncio
+        - pytest-timeout
         - python
     files:
       source:
-        - tests/
+        - e2e/python/
 
 about:
   homepage: https://github.com/xberg-io/tree-sitter-language-pack
