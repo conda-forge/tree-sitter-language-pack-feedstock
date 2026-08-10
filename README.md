@@ -3,17 +3,17 @@ About tree-sitter-language-pack-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/tree-sitter-language-pack-feedstock/blob/main/LICENSE.txt)
 
-Home: https://github.com/Goldziher/tree-sitter-language-pack
+Home: https://github.com/xberg-io/tree-sitter-language-pack
 
 Package license: MIT
 
-Summary: A tree-sitter parser for templating languages like ERB and EJS.
+Summary: Comprehensive tree-sitter grammar compilation with polyglot bindings
 
-Development: https://github.com/Goldziher/tree-sitter-language-pack
+Development: https://github.com/xberg-io/tree-sitter-language-pack
 
-A tree-sitter parser for templating languages like ERB and EJS,
-in which scripting code can be embedded within text content using
-the delimiters <% and %>
+Comprehensive tree-sitter grammar compilation with polyglot bindings —
+Rust, Python, Node.js, Go, Java, Ruby, Elixir, PHP, C#, WASM, Dart,
+Kotlin-Android, Swift, Zig, and CLI. 371 languages.
 
 Current build status
 ====================
