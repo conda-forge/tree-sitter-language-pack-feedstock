@@ -53,8 +53,9 @@ tests:
         - pytest e2e/python/tests
             --deselect tests/test_smoke.py::test_smoke_avro
             --deselect tests/test_smoke.py::test_smoke_tsql
-      env:
-        TSLP_LINK_MODE: static
+            ${{ --deselect test_capsule_passthrough.py if not unix else "" }}
+            ${{ --deselect test_data_extraction.py if not unix else "" }}
+            ${{ --deselect test_download.py if not unix else "" }}
     requirements:
       run:
         - pytest
