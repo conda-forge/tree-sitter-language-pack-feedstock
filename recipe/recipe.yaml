@@ -49,12 +49,18 @@ tests:
         - tree_sitter_language_pack
       pip_check: true
   - script:
-      - pytest e2e/python/tests
-          --deselect tests/test_smoke.py::test_smoke_avro
-          --deselect tests/test_smoke.py::test_smoke_tsql
-          ${{ --deselect test_capsule_passthrough.py if not unix else "" }}
-          ${{ --deselect test_data_extraction.py if not unix else "" }}
-          ${{ --deselect test_download.py if not unix else "" }}
+      - if: unix
+        then:
+          - pytest e2e/python/tests
+              --deselect tests/test_smoke.py::test_smoke_avro
+              --deselect tests/test_smoke.py::test_smoke_tsql
+        else:
+          - pytest e2e/python/tests
+              --deselect tests/test_smoke.py::test_smoke_avro
+              --deselect tests/test_smoke.py::test_smoke_tsql
+              --deselect test_capsule_passthrough.py
+              --deselect test_data_extraction.py
+              --deselect test_download.py
     requirements:
       run:
         - pytest
