@@ -55,8 +55,12 @@ tests:
               --deselect tests/test_smoke.py::test_smoke_avro
               --deselect tests/test_smoke.py::test_smoke_tsql
         else:
-          # Many tests related to CACHE_DIR fail on non-unix - Temporary fix
-          - pytest e2e/python/tests || true
+          # Filed: https://github.com/xberg-io/tree-sitter-language-pack/issues/176 (request honour TSLP_CACHE_DIR)
+          - pytest e2e/python/tests
+              --deselect tests/test_smoke.py::test_smoke_avro
+              --deselect tests/test_smoke.py::test_smoke_tsql
+              --ignore e2e\python\tests\test_data_extraction.py
+              --ignore e2e\python\tests\test_capsule_passthrough.py
     requirements:
       run:
         - pytest
