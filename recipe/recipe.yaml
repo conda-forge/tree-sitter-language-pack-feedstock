@@ -56,11 +56,11 @@ tests:
               --deselect tests/test_smoke.py::test_smoke_tsql
         else:
           # Filed: https://github.com/xberg-io/tree-sitter-language-pack/issues/176 (request honour TSLP_CACHE_DIR)
-          - pytest e2e\python\tests
-              --deselect tests\test_smoke.py::test_smoke_avro
-              --deselect tests\test_smoke.py::test_smoke_tsql
-              --deselect tests\test_download.py::test_download_cache_dir
-              --deselect tests\test_download.py::test_download_clean_cache
+          - pytest e2e/python/tests
+              --deselect tests/test_smoke.py::test_smoke_avro
+              --deselect tests/test_smoke.py::test_smoke_tsql
+              --deselect tests/test_download.py::test_download_cache_dir
+              --deselect tests/test_download.py::test_download_clean_cache
               --ignore e2e\python\tests\test_data_extraction.py
               --ignore e2e\python\tests\test_capsule_passthrough.py
     requirements:
