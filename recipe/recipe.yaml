@@ -61,17 +61,17 @@ tests:
         - tests/
 
 about:
-  homepage: https://github.com/Goldziher/tree-sitter-language-pack
-  summary: 'A tree-sitter parser for templating languages like ERB and EJS.'
+  homepage: https://github.com/xberg-io/tree-sitter-language-pack
+  summary: 'Comprehensive tree-sitter grammar compilation with polyglot bindings'
   description: |
-    A tree-sitter parser for templating languages like ERB and EJS,
-    in which scripting code can be embedded within text content using
-    the delimiters <% and %>
+    Comprehensive tree-sitter grammar compilation with polyglot bindings —
+    Rust, Python, Node.js, Go, Java, Ruby, Elixir, PHP, C#, WASM, Dart,
+    Kotlin-Android, Swift, Zig, and CLI. 371 languages.
   license: MIT
   license_file:
     - LICENSE
     - THIRDPARTY.yml
-  repository: https://github.com/Goldziher/tree-sitter-language-pack
+  repository: https://github.com/xberg-io/tree-sitter-language-pack
 
 extra:
   recipe-maintainers:
