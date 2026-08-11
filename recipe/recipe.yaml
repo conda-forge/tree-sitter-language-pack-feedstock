@@ -1,14 +1,14 @@
 context:
   name: tree-sitter-language-pack
-  version: "1.7.0"
+  version: "1.14.3"
 
 package:
   name: ${{ name|lower }}
   version: ${{ version }}
 
 source:
-  url: https://github.com/Goldziher/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: ded306f71acfbdc17359c184ab26c422545457ad35a69348143c1e3ec6cc516c
+  url: https://github.com/xberg-io/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
+  sha256: 4955f1adae50884376b9e836b3abe69a692a3c2a33ca2424c6ca1a340a613225
 
 build:
   script:
@@ -49,29 +49,42 @@ tests:
         - tree_sitter_language_pack
       pip_check: true
   - script:
-      - mkdir sources && echo '{"csharp":{}, "embeddedtemplate":{}, "yaml":{}}' > sources/language_definitions.json
-      # One test fails since we restrict the supported languages to the few that are needed (requirements/run)
-      - pytest tests || true
+      - if: unix
+        then:
+          - pytest e2e/python/tests
+              --deselect tests/test_smoke.py::test_smoke_avro
+              --deselect tests/test_smoke.py::test_smoke_tsql
+        else:
+          # Filed: https://github.com/xberg-io/tree-sitter-language-pack/issues/176 (request honour TSLP_CACHE_DIR)
+          - pytest e2e/python/tests
+              --deselect tests/test_smoke.py::test_smoke_avro
+              --deselect tests/test_smoke.py::test_smoke_tsql
+              --deselect tests/test_download.py::test_download_cache_dir
+              --deselect tests/test_download.py::test_download_clean_cache
+              --ignore e2e\python\tests\test_data_extraction.py
+              --ignore e2e\python\tests\test_capsule_passthrough.py
     requirements:
       run:
         - pytest
+        - pytest-asyncio
+        - pytest-timeout
         - python
     files:
       source:
-        - tests/
+        - e2e/python/
 
 about:
-  homepage: https://github.com/Goldziher/tree-sitter-language-pack
-  summary: 'A tree-sitter parser for templating languages like ERB and EJS.'
+  homepage: https://github.com/xberg-io/tree-sitter-language-pack
+  summary: 'Comprehensive tree-sitter grammar compilation with polyglot bindings'
   description: |
-    A tree-sitter parser for templating languages like ERB and EJS,
-    in which scripting code can be embedded within text content using
-    the delimiters <% and %>
+    Comprehensive tree-sitter grammar compilation with polyglot bindings —
+    Rust, Python, Node.js, Go, Java, Ruby, Elixir, PHP, C#, WASM, Dart,
+    Kotlin-Android, Swift, Zig, and CLI. 371 languages.
   license: MIT
   license_file:
     - LICENSE
     - THIRDPARTY.yml
-  repository: https://github.com/Goldziher/tree-sitter-language-pack
+  repository: https://github.com/xberg-io/tree-sitter-language-pack
 
 extra:
   recipe-maintainers:
