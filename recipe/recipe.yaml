@@ -1,6 +1,6 @@
 context:
   name: tree-sitter-language-pack
-  version: "1.14.3"
+  version: "1.15.0"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/xberg-io/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 4955f1adae50884376b9e836b3abe69a692a3c2a33ca2424c6ca1a340a613225
+  sha256: 1bda95faf207c19702545ab98ac95134fccc5f953e80dee0e2e78150d2f45772
 
 build:
   script:
@@ -49,20 +49,29 @@ tests:
         - tree_sitter_language_pack
       pip_check: true
   - script:
-      - if: unix
-        then:
-          - pytest e2e/python/tests
-              --deselect tests/test_smoke.py::test_smoke_avro
-              --deselect tests/test_smoke.py::test_smoke_tsql
-        else:
-          # Filed: https://github.com/xberg-io/tree-sitter-language-pack/issues/176 (request honour TSLP_CACHE_DIR)
-          - pytest e2e/python/tests
-              --deselect tests/test_smoke.py::test_smoke_avro
-              --deselect tests/test_smoke.py::test_smoke_tsql
-              --deselect tests/test_download.py::test_download_cache_dir
-              --deselect tests/test_download.py::test_download_clean_cache
-              --ignore e2e\python\tests\test_data_extraction.py
-              --ignore e2e\python\tests\test_capsule_passthrough.py
+      # https://github.com/xberg-io/tree-sitter-language-pack/issues/176
+      # 1.15.0 reads TREE_SITTER_LANGUAGE_PACK_CACHE_DIR ahead of dirs::cache_dir(), whose
+      # Windows path (SHGetKnownFolderPath(FOLDERID_LocalAppData)) does not resolve in the
+      # build sandbox. Setting it bypasses that call entirely; without it win-64 fails closed.
+      - if: win
+        then: set "TREE_SITTER_LANGUAGE_PACK_CACHE_DIR=%TEMP%\tslp-cache"
+      - pytest e2e/python/tests
+          --deselect tests/test_smoke.py::test_smoke_avro
+          --deselect tests/test_smoke.py::test_smoke_tsql
+      # - if: unix
+      #   then:
+      #     - pytest e2e/python/tests
+      #         --deselect tests/test_smoke.py::test_smoke_avro
+      #         --deselect tests/test_smoke.py::test_smoke_tsql
+      #   else:
+      #     # Filed: https://github.com/xberg-io/tree-sitter-language-pack/issues/176 (request honour TSLP_CACHE_DIR)
+      #     - pytest e2e/python/tests
+      #         --deselect tests/test_smoke.py::test_smoke_avro
+      #         --deselect tests/test_smoke.py::test_smoke_tsql
+      #         --deselect tests/test_download.py::test_download_cache_dir
+      #         --deselect tests/test_download.py::test_download_clean_cache
+      #         --ignore e2e\python\tests\test_data_extraction.py
+      #         --ignore e2e\python\tests\test_capsule_passthrough.py
     requirements:
       run:
         - pytest
