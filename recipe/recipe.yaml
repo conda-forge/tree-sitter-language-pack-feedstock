@@ -7,17 +7,45 @@ package:
   version: ${{ version }}
 
 source:
-  url: https://github.com/xberg-io/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 1bda95faf207c19702545ab98ac95134fccc5f953e80dee0e2e78150d2f45772
+  - url: https://github.com/xberg-io/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
+    sha256: 1bda95faf207c19702545ab98ac95134fccc5f953e80dee0e2e78150d2f45772
+    patches:
+      # Rewrites the tarball's own vendored patches/typst/serialize-buffer-overflow.patch
+      # to upstream main's fixed form (61e331426). The 1.15.0 version narrows the
+      # serialized length prefix to uint32_t while vec_u32_deserialize still reads it
+      # back as `sizeof self->len` (8 bytes); the garbage upper half becomes a huge
+      # element count that overruns the 1024-byte serialization buffer, so any typst
+      # parse that round-trips scanner state faults. `#let x = 1` does.
+      # Upstream: https://github.com/xberg-io/tree-sitter-language-pack/issues/180
+      # REMOVE this patch and the static-build wiring below once 1.15.1 is released.
+      - patches/typst/serialize-buffer-overflow.patch
+  # Vendored so the static grammar build needs no network: build.rs probes
+  # parsers/<lang>/src/parser.c and would otherwise git-clone or download sources.
+  # rev is pinned to this tag's sources/language_definitions.json typst entry.
+  - url: https://github.com/uben0/tree-sitter-typst/archive/46cf4ded12ee974a70bf8457263b67ad7ee0379d.tar.gz
+    sha256: 0674b2bb9ab920f7fa83ffb6a42a320df14b783fbc7cabd25d71503865e7cd4b
+    target_directory: parsers/typst
 
 build:
   script:
-    - mkdir parsers
-    - cd packages/python
-    - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
-    - maturin build --release --interpreter ${{ PYTHON }} --out ${{ "${SRC_DIR}/dist" if unix else "%SRC_DIR%\dist" }}
-    - cd ../..
-    - ${{ PYTHON }} -m pip install --find-links=dist tree_sitter_language_pack
+    env:
+      # Selects which grammars are compiled INTO the extension module. Unset means an
+      # empty selection, and build.rs then skips grammar patching entirely ("An empty
+      # selection compiles no grammar sources at all, so there is nothing to patch"),
+      # leaving the typst parser to be downloaded prebuilt -- and unfixed -- at runtime.
+      # Setting this is what makes the source patch above take effect at all.
+      # get_language() consults the static table before any dynamic/downloaded library,
+      # so this statically compiled typst wins over the bundled one.
+      TSLP_LANGUAGES: typst
+      # Belt and braces: refuse any build-time source fetch. parsers/typst is vendored
+      # as a source entry above, which already satisfies the offline path.
+      TSLP_OFFLINE: "1"
+    content:
+      - cd packages/python
+      - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
+      - maturin build --release --interpreter ${{ PYTHON }} --out ${{ "${SRC_DIR}/dist" if unix else "%SRC_DIR%\dist" }}
+      - cd ../..
+      - ${{ PYTHON }} -m pip install --find-links=dist tree_sitter_language_pack
   number: 0
 
 requirements:
