@@ -1,6 +1,6 @@
 context:
   name: tree-sitter-language-pack
-  version: "1.14.3"
+  version: "1.15.2"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/xberg-io/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 4955f1adae50884376b9e836b3abe69a692a3c2a33ca2424c6ca1a340a613225
+  sha256: a5a67f27798c727db3f2188e530020abcefc82bcaab67a7de61655f263f2bedc
 
 build:
   script:
@@ -51,18 +51,11 @@ tests:
   - script:
       - if: unix
         then:
-          - pytest e2e/python/tests
-              --deselect tests/test_smoke.py::test_smoke_avro
-              --deselect tests/test_smoke.py::test_smoke_tsql
+          - pytest e2e/python/tests --deselect tests/test_smoke.py::test_smoke_avro --deselect tests/test_smoke.py::test_smoke_tsql
         else:
           # Filed: https://github.com/xberg-io/tree-sitter-language-pack/issues/176 (request honour TSLP_CACHE_DIR)
-          - pytest e2e/python/tests
-              --deselect tests/test_smoke.py::test_smoke_avro
-              --deselect tests/test_smoke.py::test_smoke_tsql
-              --deselect tests/test_download.py::test_download_cache_dir
-              --deselect tests/test_download.py::test_download_clean_cache
-              --ignore e2e\python\tests\test_data_extraction.py
-              --ignore e2e\python\tests\test_capsule_passthrough.py
+          - pytest e2e/python/tests --deselect tests/test_smoke.py::test_smoke_avro --deselect tests/test_smoke.py::test_smoke_tsql --deselect tests/test_download.py::test_download_cache_dir --deselect tests/test_download.py::test_download_clean_cache --ignore e2e\python\tests\test_data_extraction.py --ignore 
+            e2e\python\tests\test_capsule_passthrough.py
     requirements:
       run:
         - pytest
