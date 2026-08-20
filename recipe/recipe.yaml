@@ -36,6 +36,11 @@ build:
       - mv _parser_sources/parsers parsers
       - cd packages/python
       - cargo-bundle-licenses --format yaml --output ../../THIRDPARTY.yml
+      - if: ppc64le
+        then:
+          - export CFLAGS_powerpc64le_unknown_linux_gnu="${CFLAGS}"
+          - export CXXFLAGS_powerpc64le_unknown_linux_gnu="${CXXFLAGS}"
+          - unset CFLAGS CXXFLAGS
       - maturin build --release --interpreter ${{ PYTHON }} --out ${{ "${SRC_DIR}/dist" if unix else "%SRC_DIR%\dist" }}
       - cd ../..
       - ${{ PYTHON }} -m pip install --find-links=dist tree_sitter_language_pack
@@ -72,7 +77,7 @@ tests:
       pip_check: true
   - script:
       - ${{ '' if unix else 'set TREE_SITTER_LANGUAGE_PACK_CACHE_DIR=%TEMP%\tslp-cache' }}
-      - pytest e2e/python/tests --deselect tests/test_smoke.py::test_smoke_avro --deselect tests/test_smoke.py::test_smoke_tsql
+      - pytest e2e/python/tests
     requirements:
       run:
         - pytest
