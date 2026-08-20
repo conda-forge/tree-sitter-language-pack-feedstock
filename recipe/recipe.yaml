@@ -71,6 +71,7 @@ tests:
         - tree_sitter_language_pack
       pip_check: true
   - script:
+      - ${{ '' if unix else 'set TREE_SITTER_LANGUAGE_PACK_CACHE_DIR=%TEMP%\tslp-cache' }}
       - pytest e2e/python/tests --deselect tests/test_smoke.py::test_smoke_avro --deselect tests/test_smoke.py::test_smoke_tsql
     requirements:
       run:
