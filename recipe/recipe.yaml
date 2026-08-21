@@ -10,9 +10,6 @@ package:
 source:
   - url: https://github.com/xberg-io/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
     sha256: b2ac01138eef2cb876bf2c5f7cd83db2959083474fef0a3a6dd985483cc1efbd
-    patches:
-      # Remove once upstream regenerates the e2e suite.
-      - fix-e2e-test-assertions.patch
   - url: https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v${{ version }}/parser-sources-${{ version }}.tar.zst
     sha256: a07300b9191839f1723700d544d4706830e3af17fbd49215dc06fb4fd45ed6c5
     target_directory: _parser_sources
