@@ -40,6 +40,16 @@ build:
           - export CFLAGS_powerpc64le_unknown_linux_gnu="${CFLAGS}"
           - export CXXFLAGS_powerpc64le_unknown_linux_gnu="${CXXFLAGS}"
           - unset CFLAGS CXXFLAGS
+      - if: riscv64
+        then:
+          - export CFLAGS_riscv64gc_unknown_linux_gnu="${CFLAGS}"
+          - export CXXFLAGS_riscv64gc_unknown_linux_gnu="${CXXFLAGS}"
+          - unset CFLAGS CXXFLAGS
+      - if: osx and x86_64
+        then:
+          - export CFLAGS_x86_64_apple_darwin="${CFLAGS}"
+          - export CXXFLAGS_x86_64_apple_darwin="${CXXFLAGS}"
+          - unset CFLAGS CXXFLAGS
       - maturin build --release --interpreter ${{ PYTHON }} --out ${{ "${SRC_DIR}/dist" if unix else "%SRC_DIR%\dist" }}
       - cd ../..
       - ${{ PYTHON }} -m pip install --find-links=dist tree_sitter_language_pack
