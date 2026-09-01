@@ -1,7 +1,7 @@
 context:
   build_number: 0
   name: tree-sitter-language-pack
-  version: "1.15.12"
+  version: "1.16.1"
 
 package:
   name: ${{ name|lower }}
@@ -9,11 +9,11 @@ package:
 
 source:
   - url: https://github.com/xberg-io/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-    sha256: e5e17a014a05020790b6a202eff692e85427642f996211e65b2b5a7057769044
+    sha256: cbf563626803585b290a66ef244f70013a184720f55fffd302cf6a05dd2c038b
     patches:
       - fix-e2e-test-dict-access-1.15.12.patch
   - url: https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v${{ version }}/parser-sources-${{ version }}.tar.zst
-    sha256: 197f6c9d382ec8f238dad85eadac81f038d42bae4611fdd449ab07786d832bd4
+    sha256: f315ba1345b1be0b463fa82a393fbc5462c89184b19236ef8a7f621c4268304a
     target_directory: _parser_sources
 
 build:
