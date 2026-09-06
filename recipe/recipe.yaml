@@ -10,8 +10,8 @@ package:
 source:
   - url: https://github.com/xberg-io/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
     sha256: a2221bfcf46419901aa3b38ca63c424b1fc1ace12c3b1b8ec35ea29ec14fd9dd
-    patches:
-      - fix-e2e-test-dict-access-1.15.12.patch
+    # patches:
+    #   - fix-e2e-test-dict-access-1.15.12.patch
   - url: https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v${{ version }}/parser-sources-${{ version }}.tar.zst
     sha256: 334592ea00bf5e83753e15d14512e1516cefe7fea1e0fe3d507a59b4377de741
     target_directory: _parser_sources
