@@ -1,7 +1,7 @@
 context:
   build_number: 0
   name: tree-sitter-language-pack
-  version: "1.18.0"
+  version: "1.20.0"
 
 package:
   name: ${{ name|lower }}
@@ -9,9 +9,9 @@ package:
 
 source:
   - url: https://github.com/xberg-io/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-    sha256: a51b43bded6944ea0e69ef8d2f8bf3737a66f3d966d403eb940a9d9de97cc9ff
+    sha256: 00910d53b4ab0f054dd8b57b4971ec0c8356e5e878ca9d26b343a176fe3fce8d
   - url: https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v${{ version }}/parser-sources-${{ version }}.tar.zst
-    sha256: 3bdfbbf639f8e0fdec61c7f957bcb3da7671cb208b18aefbd721874af2017b28
+    sha256: 381b9ed7a781f822e43d3b3c8c5d030e3335f19f9c8eb7015b6a6f35a930ea54
     target_directory: _parser_sources
 
 build:
@@ -48,7 +48,11 @@ build:
           - export CFLAGS_x86_64_apple_darwin="${CFLAGS}"
           - export CXXFLAGS_x86_64_apple_darwin="${CXXFLAGS}"
           - unset CFLAGS CXXFLAGS
-      - maturin build --release --interpreter ${{ PYTHON }} --out ${{ "${SRC_DIR}/dist" if unix else "%SRC_DIR%\dist" }}
+      - if: linux
+        then:
+          - maturin build --release --compatibility linux --interpreter ${{ PYTHON }} --out ${{ "${SRC_DIR}/dist" if unix else "%SRC_DIR%\dist" }}
+        else:
+          - maturin build --release --interpreter ${{ PYTHON }} --out ${{ "${SRC_DIR}/dist" if unix else "%SRC_DIR%\dist" }}
       - cd ../..
       - ${{ PYTHON }} -m pip install --find-links=dist tree_sitter_language_pack
   number: ${{ build_number }}
