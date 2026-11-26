@@ -1,7 +1,7 @@
 context:
   build_number: 0
   name: tree-sitter-language-pack
-  version: "1.27.4"
+  version: "1.28.0"
 
 package:
   name: ${{ name|lower }}
@@ -9,9 +9,9 @@ package:
 
 source:
   - url: https://github.com/xberg-io/tree-sitter-language-pack/archive/refs/tags/v${{ version }}.tar.gz
-    sha256: 4e6ec35b7d82e4b1a417a6506768e84d0b2bdc11fee6396636c7ce7228c3db3d
+    sha256: c3d86efef9fa27ee19edafaeadcedda584543084d885cb4811995aa99c68ae54
   - url: https://github.com/xberg-io/tree-sitter-language-pack/releases/download/v${{ version }}/parser-sources-${{ version }}.tar.zst
-    sha256: 028e07db84b7a578abdc267e284df97bc5fb9e0fa8c404fdd34ad9b174d2380b
+    sha256: 20b748cf65d1eecef310a3d244ef91e5e1681c6dbd1363f51a5d52d2bc708ee4
     target_directory: _parser_sources
 
 build:
